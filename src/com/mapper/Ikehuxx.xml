@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.Ikehuxx">
+    <select id="selectALL" resultType="com.pojo.kehuxx_weihulianxiren_xiangmu"
+            parameterType="com.pojo.kehuxx_weihulianxiren_xiangmu">
+        SELECT
+        k.id, k.kehuname ,k.diqv,k.lianxiren,l.weihulianxiren,x.xiangmu
+
+        FROM kehuxx k LEFT JOIN weihulianxiren l ON k.weihulianxirenid=l.id
+        LEFT JOIN xiangmu x ON k.xiangmuid=x.id
+        <where>
+            <if test="kehuxx_weihulianxiren_xiangmu.kehuname !=null and kehuxx_weihulianxiren_xiangmu.kehuname !=''">
+                and kehuname=#{kehuxx_weihulianxiren_xiangmu.kehuname}
+            </if>
+            <if test="kehuxx_weihulianxiren_xiangmu.diqv !=null and kehuxx_weihulianxiren_xiangmu.diqv !=''">
+                and diqv=#{kehuxx_weihulianxiren_xiangmu.diqv}
+            </if>
+            <if test="kehuxx_weihulianxiren_xiangmu.lianxiren !=null and kehuxx_weihulianxiren_xiangmu.lianxiren !=''">
+                and lianxiren=#{kehuxx_weihulianxiren_xiangmu.lianxiren}
+            </if>
+            <if test="kehuxx_weihulianxiren_xiangmu.weihulianxiren !=null and kehuxx_weihulianxiren_xiangmu.weihulianxiren !=''">
+                and weihulianxiren=#{kehuxx_weihulianxiren_xiangmu.weihulianxiren}
+            </if>
+            <if test="kehuxx_weihulianxiren_xiangmu.xiangmu !=null and kehuxx_weihulianxiren_xiangmu.xiangmu !=''">
+                and xiangmu=#{kehuxx_weihulianxiren_xiangmu.xiangmu}
+            </if>
+        </where>
+    </select>
+    <select id="findxiangmuid" resultType="int"
+            parameterType="com.pojo.kehuxx_weihulianxiren_xiangmu">
+        SELECT
+        id
+        FROM xiangmu
+      where xiangmu=#{kehuxx_weihulianxiren_xiangmu.xiangmu}
+    </select>
+    <select id="findweihulianxirenid" resultType="int"
+            parameterType="com.pojo.kehuxx_weihulianxiren_xiangmu">
+        SELECT
+        id
+        FROM weihulianxiren
+      where weihulianxiren=#{kehuxx_weihulianxiren_xiangmu.weihulianxiren}
+    </select>
+    <select id="lie" resultType="com.pojo.xiangmu">
+        SELECT * from xiangmu
+    </select>
+    <select id="liew" resultType="com.pojo.weihulianxiren">
+        SELECT * from weihulianxiren
+    </select>
+    <select id="addweihulianxiren" parameterType="com.pojo.kehuxx_weihulianxiren_xiangmu">
+        INSERT INTO weihulianxiren (weihulianxiren)
+        VALUE(kehuxx_weihulianxiren_xiangmu.weihulianxiren);
+    </select>
+
+    <select id="addxiangmu" parameterType="com.pojo.kehuxx_weihulianxiren_xiangmu">
+        INSERT INTO xiangmu (xiangmu)
+        VALUE(kehuxx_weihulianxiren_xiangmu.xiangmu);
+    </select>
+    <select id="add" parameterType="com.pojo.kehuxx_weihulianxiren_xiangmu">
+        INSERT INTO kehuxx (kehuname,diqv,lianxiren,weihulianxirenid,xiangmuid)
+        VALUES(#{kehuxx_weihulianxiren_xiangmu.kehuname},#{kehuxx_weihulianxiren_xiangmu.diqv},#{kehuxx_weihulianxiren_xiangmu.lianxiren},#{kehuxx_weihulianxiren_xiangmu.weihulianxirenid},#{kehuxx_weihulianxiren_xiangmu.xiangmuid});
+    </select>
+
+    <select id="update" parameterType="com.pojo.kehuxx_weihulianxiren_xiangmu">
+UPDATE kehuxx k, weihulianxiren w,xiangmu x
+SET k.kehuname=#{kehuxx_weihulianxiren_xiangmu.kehuname},k.diqv=#{kehuxx_weihulianxiren_xiangmu.diqv},k.lianxiren=#{kehuxx_weihulianxiren_xiangmu.lianxiren},w.weihulianxiren=#{kehuxx_weihulianxiren_xiangmu.weihulianxiren},x.xiangmu=#{kehuxx_weihulianxiren_xiangmu.xiangmu}
+WHERE
+   k.weihulianxirenid = w.id and
+    k.xiangmuid = x.id and
+	 k.id=#{kehuxx_weihulianxiren_xiangmu.id};
+    </select>
+</mapper>
